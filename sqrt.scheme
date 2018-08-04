@@ -1,0 +1,54 @@
+(define (fib n)
+	;body
+	(fib-iter 1 0 n))
+(define (fib-iter a b count)
+	;body
+	(if (= count 0) 
+		;first option
+		b
+		;second option
+		(fib-iter (+ a b) a (- count 1))))
+
+; Example: Counting change
+; count the number of ways to create change equal to $1 with half-dollars, quarters, dimes, nickels, and pennies
+; Think of the types of coins as available as arranged in some order
+
+; the number of ways to change amount "a" using "n" kinds of coins equals:
+; - the number of ways to change amount "a" using all BUT the first kind of coin PLUS
+; - the number of ways to change amount (a - d) using all n kinds of coins, where d is the 
+; denomination of the first coin
+
+; if a == 0, that counts as 1 way to make change
+; if a < 0, that counts as 0 ways to make change
+; if n == 0, we should count that as 0 ways to make change
+
+(define (count-change amount)
+	(cc amount 5)) ;5 is the number of coins available (pennies, nickels, dimes, quarter, half-dollar)
+
+(define (cc amount kinds-of-coins)
+	(cond 	((= amount 0) 1)
+			((< amount 0) 0)
+			((= kinds-of-coins 0) 0)
+			(else 
+				(+ 	(cc amount (- kinds-of-coins 1)) ;# of ways that do not use any of the first kind of coin
+					(cc (- amount (first-denomination kinds-of-coins)) kinds-of-coins) ;# ways for same number of coins, but with decreased amount (since we used the)
+			)
+
+	)
+)
+
+(define (first-denomination kinds-of-coins)
+	(cond 	((= kinds-of-coins 1) 1))
+			((= kinds-of-coins 2) 5)
+			((= kinds-of-coins 3) 10)
+			((= kinds-of-coins 4) 25)
+			((= kinds-of-coins 5) 50)
+)
+
+
+
+; The change can be divided into two groups:
+; a) those that do not use the first kind of coin
+; b) those that do use the first kind of coin 
+;	- equal to # of ways to make change for the amount that remains after using a coin of the first kind
+
